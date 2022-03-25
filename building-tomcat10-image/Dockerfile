@@ -12,9 +12,7 @@ RUN 	apt-get update \
     	&& apt-get autoremove -y \
     	&& apt-get clean
 
-ENV TOMCAT_HOME="/opt/tomcat/apache-tomcat-10.0.18/bin"
-
 EXPOSE 8080:8080
 
-CMD ["$TOMCAT_HOME/catalina.sh", "run"]
+CMD ["/opt/tomcat/apache-tomcat-10.0.18/bin/catalina.sh", "run"]
 
