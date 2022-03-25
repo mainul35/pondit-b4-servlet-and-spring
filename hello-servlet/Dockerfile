@@ -1,7 +1,6 @@
 FROM mainul35/tomcat:10
 
 RUN rm -rf /usr/local/tomcat/webapps/* \
-    && mvn clean install \
     && mv ./target/hello-servlet-1.0.0-SNAPSHOT.war ROOT.war
 
 EXPOSE 8080:8080
