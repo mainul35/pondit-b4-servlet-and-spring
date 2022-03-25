@@ -11,7 +11,7 @@ RUN 	apt-get update \
     	&& apt-get purge -y curl \
     	&& apt-get autoremove -y \
     	&& apt-get clean \
-#        && cd /opt/tomcat/apache-tomcat-10.0.18/bin/
+        && cd /opt/tomcat/apache-tomcat-10.0.18/bin/
 EXPOSE 8080:8080
-CMD ["/opt/tomcat/apache-tomcat-10.0.18/bin/catalina.sh", "run"]
+CMD ["catalina.sh", "run"]
 
