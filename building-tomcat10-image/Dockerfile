@@ -10,8 +10,11 @@ RUN 	apt-get update \
     	&& mv apache-tomcat-10.0.18/ /opt/tomcat/ \
     	&& apt-get purge -y curl \
     	&& apt-get autoremove -y \
-    	&& apt-get clean \
-        && cd /opt/tomcat/apache-tomcat-10.0.18/bin/
+    	&& apt-get clean
+
+ENV TOMCAT_HOME="/opt/tomcat/apache-tomcat-10.0.18/bin"
+
 EXPOSE 8080:8080
-CMD ["catalina.sh", "run"]
+
+CMD ["$TOMCAT_HOME/catalina.sh", "run"]
 
