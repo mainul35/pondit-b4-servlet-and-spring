@@ -1,6 +1,6 @@
 FROM mainul35/tomcat:10
 
-RUN rm -rf /usr/local/tomcat/webapps/*
+RUN rm -rf /opt/tomcat/apache-tomcat-10.0.18/webapps/*
 
 EXPOSE 8080:8080
 
