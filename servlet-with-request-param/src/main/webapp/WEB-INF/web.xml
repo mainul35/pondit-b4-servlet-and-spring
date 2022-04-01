@@ -5,13 +5,13 @@
 
 
     <servlet>
-        <servlet-name>helloServlet</servlet-name>
+        <servlet-name>requestParamDemo</servlet-name>
         <servlet-class>com.pondit.b4.HelloServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>helloServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
+        <servlet-name>requestParamDemo</servlet-name>
+        <url-pattern>/request-param-demo</url-pattern>
     </servlet-mapping>
 
     <servlet>
