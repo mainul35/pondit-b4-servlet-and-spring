@@ -7,5 +7,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>hello-servlet</module>
+        <module>servlet-with-request-param</module>
     </modules>
 </project>
