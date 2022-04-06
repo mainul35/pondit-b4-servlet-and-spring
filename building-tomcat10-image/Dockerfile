@@ -1,18 +1,20 @@
-FROM mainul35/openjdk:18
+FROM jdk:18
 
-RUN 	apt-get update \
-        && apt-get upgrade \
-        && apt-get install -y curl \
-	    && curl https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.18/bin/apache-tomcat-10.0.18.tar.gz --output 'tomcat-10.0.18.tar.gz' \
-    	&& tar -zxvf tomcat-10.0.18.tar.gz \
-    	&& rm tomcat-10.0.18.tar.gz \
-	    && mkdir /opt/tomcat \
-    	&& mv apache-tomcat-10.0.18/ /opt/tomcat/ \
-    	&& apt-get purge -y curl \
-    	&& apt-get autoremove -y \
-    	&& apt-get clean
+RUN apt-get update
+RUN apt-get upgrade
+RUN apt-get install -y curl
+RUN curl https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.18/bin/apache-tomcat-10.0.18.tar.gz --output 'tomcat-10.0.18.tar.gz'
+RUN tar -zxvf tomcat-10.0.18.tar.gz
+RUN rm tomcat-10.0.18.tar.gz
+RUN mkdir /opt/tomcat
+RUN mv apache-tomcat-10.0.18/ /opt/tomcat/
+RUN apt-get purge -y curl
+RUN apt-get autoremove -y
+RUN apt-get clean
+
+WORKDIR /opt/tomcat/apache-tomcat-10.0.18/bin/
 
 EXPOSE 8080:8080
 
-CMD ["/opt/tomcat/apache-tomcat-10.0.18/bin/catalina.sh", "run"]
+CMD ["catalina.sh", "run"]
 
