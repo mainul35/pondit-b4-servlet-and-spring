@@ -8,5 +8,7 @@
     <modules>
         <module>hello-servlet</module>
         <module>servlet-with-request-param</module>
+        <module>spring5-hello-world</module>
+        <module>jsp-form-taglib</module>
     </modules>
 </project>

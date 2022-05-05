@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
     <groupId>com.alamin8740</groupId>
-    <artifactId>spring5-hello-world4</artifactId>
+    <artifactId>spring5-hello-world</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
