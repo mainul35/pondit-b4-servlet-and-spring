@@ -10,5 +10,6 @@
         <module>servlet-with-request-param</module>
         <module>spring5-hello-world</module>
         <module>jsp-form-taglib</module>
+        <module>social-community-project</module>
     </modules>
 </project>
