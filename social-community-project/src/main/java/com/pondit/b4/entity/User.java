@@ -1,24 +1,25 @@
 package com.pondit.b4.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Data;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Data
 @Entity
 @Table(name = "tbl_user")
 public class User implements Serializable {
 
     @Id
-    @Column(name = "id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "name")
+    private String name;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
 }

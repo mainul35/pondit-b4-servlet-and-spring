@@ -11,7 +11,7 @@
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">123456</property>
 
-        <property name="hibernate.connection.url">jdbc:postgresql://192.168.151.218:5432/social_community</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://172.16.0.103:5432/social_community</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.connection.autocommit">true</property>
         <property name="hibernate.c3p0.min_size">5</property>
