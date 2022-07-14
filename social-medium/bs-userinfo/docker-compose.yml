@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  bs-userinfo:
+    container_name: 'bs-userinfo'
+    image: 'social-medium/bs-userinfo'
+    build: ./
+    ports:
+      - '8581:8581'
+    depends_on:
+      - userinfo_db
+    command: mvn clean spring-boot:run
+    # Pass environment variables to the service
+    environment:
+      # The inside port will be used by the dependent services
+      SPRING_DATASOURCE_HOST: userinfo_db
+      SPRING_DATASOURCE_DB: userinfo
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_DATASOURCE_DB_PORT: 5432
+      SERVER_PORT: 8581
+      ACTIVE_PROFILE: dev
+    networks:
+      - social_medium
+    volumes:
+      - type: volume
+        source: vol_userinfo
+        target: "/home/mainul35/Documents/userinfo/static/resources"
+  userinfo_db:
+    image: 'postgres'
+    container_name: 'userinfo_container'
+    volumes:
+      - type: volume
+        source: vol_userinfo
+        target: "/home/mainul35/Documents/userinfo_db_data"
+    ports:
+      - '5433:5432'
+    environment:
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_DB=userinfo'
+    networks:
+      - social_medium
+    extra_hosts:
+      - 'qaboard_network:192.168.1.100'
+volumes:
+  vol_userinfo:
+networks:
+  social_medium:
+
