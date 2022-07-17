@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,11 +27,4 @@ public class UserEntity {
     private String username;
     @Column(name = "profile_image_path")
     private String profileImagePath;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_connections",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "connection_id", referencedColumnName = "id")}
-    )
-    private Set<UserEntity> connections;
 }

@@ -4,69 +4,97 @@
     "firstName": "Syed Mainul",
     "surname": "Hasan",
     "username": "mainul_1",
-    "email": "mainuls18+001@gmail.com"
+    "email": "mainuls18+001@gmail.com",
+    "connections": [
+      "2", "3", "4", "6", "8", "9", "10"
+    ]
   },
   {
     "id": "2",
     "firstName": "Syed Mainul",
     "surname": "Hasan",
     "username": "mainul_2",
-    "email": "mainuls18+002@gmail.com"
+    "email": "mainuls18+002@gmail.com",
+    "connections": [
+      "1", "3", "5", "6", "8", "9", "10"
+    ]
   },
   {
     "id": "3",
     "firstName": "Syed Mainul",
     "surname": "Hasan",
     "username": "mainul_3",
-    "email": "mainuls18+003@gmail.com"
+    "email": "mainuls18+003@gmail.com",
+    "connections": [
+      "1", "2", "4", "5", "6", "8", "9", "10"
+    ]
   },
   {
     "id": "4",
     "firstName": "Syed Mainul",
     "surname": "Hasan",
     "username": "mainul_4",
-    "email": "mainuls18+004@gmail.com"
+    "email": "mainuls18+004@gmail.com",
+    "connections": [
+      "1","2", "3"
+    ]
   },
   {
     "id": "5",
     "firstName": "Syed Mainul",
     "surname": "Hasan",
     "username": "mainul_5",
-    "email": "mainuls18+005@gmail.com"
+    "email": "mainuls18+005@gmail.com",
+    "connections": [
+      "3"
+    ]
   },
   {
     "id": "6",
     "firstName": "Syed Mainul",
     "surname": "Hasan",
     "username": "mainul_6",
-    "email": "mainuls18+006@gmail.com"
+    "email": "mainuls18+006@gmail.com",
+    "connections": [
+      "1","2", "3"
+    ]
   },
   {
     "id": "7",
     "firstName": "Syed Mainul",
     "surname": "Hasan",
     "username": "mainul_7",
-    "email": "mainuls18+007@gmail.com"
+    "email": "mainuls18+007@gmail.com",
+    "connections": []
   },
   {
     "id": "8",
     "firstName": "Syed Mainul",
     "surname": "Hasan",
     "username": "mainul_8",
-    "email": "mainuls18+008@gmail.com"
+    "email": "mainuls18+008@gmail.com",
+    "connections": [
+      "1","2", "3"
+    ]
   },
   {
     "id": "9",
     "firstName": "Syed Mainul",
     "surname": "Hasan",
     "username": "mainul_9",
-    "email": "mainuls18+009@gmail.com"
+    "email": "mainuls18+009@gmail.com",
+    "connections": [
+      "1","2", "3"
+    ]
   },
   {
     "id": "10",
     "firstName": "Syed Mainul",
     "surname": "Hasan",
     "username": "mainul_10",
-    "email": "mainuls18+0010@gmail.com"
+    "email": "mainuls18+0010@gmail.com",
+    "connections": [
+      "1","2", "3"
+    ]
   }
 ]
