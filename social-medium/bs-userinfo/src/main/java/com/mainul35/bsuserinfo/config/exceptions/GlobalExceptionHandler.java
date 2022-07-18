@@ -67,7 +67,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         StackTraceElement[] trace = ex.getStackTrace();
         StringBuilder traceLines = new StringBuilder();
         traceLines.append("Caused By: ").append(ex.fillInStackTrace()).append("\n");
-        Arrays.stream(trace).filter(f -> f.getClassName().contains("com.example.springbootdemo"))
+        Arrays.stream(trace).filter(f -> f.getClassName().contains("com.mainul35"))
                 .forEach(traceElement -> traceLines.append("\tat ").append(traceElement).append("\n"));
         log.error(traceLines.toString());
     }
@@ -83,7 +83,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         StackTraceElement[] trace = ex.getStackTrace();
         StringBuilder traceLines = new StringBuilder();
         traceLines.append("Caused By: ").append(ex.fillInStackTrace()).append("\n");
-        Arrays.stream(trace).filter(f -> f.getClassName().contains("com.example.springbootdemo"))
+        Arrays.stream(trace).filter(f -> f.getClassName().contains("com.mainul35"))
                 .forEach(traceElement -> traceLines.append("\tat ").append(traceElement).append("\n"));
         logger.error(traceLines);
         return new ResponseEntity(body, headers, status);
