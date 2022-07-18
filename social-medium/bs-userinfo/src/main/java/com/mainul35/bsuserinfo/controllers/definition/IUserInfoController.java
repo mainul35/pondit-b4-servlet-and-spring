@@ -4,8 +4,10 @@ import com.mainul35.bsuserinfo.controllers.dtos.request.Filter;
 import com.mainul35.bsuserinfo.controllers.dtos.request.UserInfoRequest;
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/users")
@@ -18,5 +20,5 @@ public interface IUserInfoController {
     ResponseEntity<String> create(@RequestBody UserInfoRequest userInfoRequest);
 
     @PostMapping("/search")
-    ResponseEntity<List<UserInfoResponse>> search(@RequestBody Filter Filter);
+    ResponseEntity<List<UserInfoResponse>> search(@Valid @RequestBody Filter Filter);
 }

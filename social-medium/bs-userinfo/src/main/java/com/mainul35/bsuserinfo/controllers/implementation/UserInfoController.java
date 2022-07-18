@@ -7,7 +7,6 @@ import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
 import com.mainul35.bsuserinfo.entity.UserEntity;
 import com.mainul35.bsuserinfo.services.UserInfoService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,14 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class UserInfoController implements IUserInfoController {
-
-    private final UserInfoService userInfoService;
-
-    @Autowired
-    public UserInfoController(UserInfoService userInfoService) {
-        this.userInfoService = userInfoService;
-    }
+public record UserInfoController(UserInfoService userInfoService) implements IUserInfoController {
 
     @Override
     public ResponseEntity<List<UserInfoResponse>> getUsers(Integer pageIxd, Integer itemsPerPage) {
