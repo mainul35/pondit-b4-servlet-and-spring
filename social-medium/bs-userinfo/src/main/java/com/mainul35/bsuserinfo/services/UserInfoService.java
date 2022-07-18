@@ -2,7 +2,6 @@ package com.mainul35.bsuserinfo.services;
 
 import com.mainul35.bsuserinfo.controllers.dtos.request.Filter;
 import com.mainul35.bsuserinfo.controllers.dtos.request.UserInfoRequest;
-import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
 import com.mainul35.bsuserinfo.entity.UserEntity;
 import com.mainul35.bsuserinfo.enums.Field;
 import com.mainul35.bsuserinfo.repositories.UserInfoRepository;
@@ -11,19 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
-@Repository
+@Service
 public class UserInfoService {
 
     @Autowired

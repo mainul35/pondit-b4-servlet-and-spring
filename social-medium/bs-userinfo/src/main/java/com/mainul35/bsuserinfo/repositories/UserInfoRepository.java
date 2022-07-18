@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserInfoRepository extends PagingAndSortingRepository<UserEntity, String> {
-    Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findByUsername(String username);
 
     Optional<UserEntity> findById(String s);
 }

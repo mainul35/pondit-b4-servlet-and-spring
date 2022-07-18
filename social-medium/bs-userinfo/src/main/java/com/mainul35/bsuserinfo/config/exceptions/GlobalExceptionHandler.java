@@ -1,5 +1,6 @@
 package com.mainul35.bsuserinfo.config.exceptions;
 
+import com.mainul35.bsuserinfo.exceptions.NoContentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,20 @@ import java.util.List;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     public static final String VALIDATION_ERROR = "validation_error";
+    public static final String NO_CONTENT = "no_content";
 
     @ExceptionHandler(value = {RuntimeException.class})
     protected ResponseEntity<?> handleLimitReached(RuntimeException ex) {
         ErrorResponse response = new ErrorResponse(VALIDATION_ERROR, ex.getMessage());
         this.printStackTrace(ex);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {NoContentException.class})
+    protected ResponseEntity<?> handleLimitReached(NoContentException ex) {
+        ErrorResponse response = new ErrorResponse(NO_CONTENT, ex.getMessage());
+        this.printStackTrace(ex);
+        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
 
     /**
