@@ -4,7 +4,6 @@ import com.mainul35.bsuserinfo.entity.ConnectionStatus;
 import com.mainul35.bsuserinfo.entity.UserConnection;
 import com.mainul35.bsuserinfo.entity.UserConnectionId;
 import com.mainul35.bsuserinfo.entity.UserEntity;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

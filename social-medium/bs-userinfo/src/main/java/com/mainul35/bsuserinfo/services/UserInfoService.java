@@ -6,7 +6,6 @@ import com.mainul35.bsuserinfo.entity.UserEntity;
 import com.mainul35.bsuserinfo.enums.Field;
 import com.mainul35.bsuserinfo.repositories.UserInfoRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,11 +20,15 @@ import java.util.UUID;
 @Service
 public class UserInfoService {
 
-    @Autowired
-    UserInfoRepository userInfoRepository;
+
+    private final UserInfoRepository userInfoRepository;
 
     @PersistenceContext
     EntityManager em;
+
+    public UserInfoService(UserInfoRepository userInfoRepository) {
+        this.userInfoRepository = userInfoRepository;
+    }
 
     public List<UserEntity> getUsers(Integer pageIxd, Integer itemsPerPage) {
         Pageable pagable = PageRequest.of(pageIxd - 1, itemsPerPage, Sort.by(Sort.Order.asc("username")));
