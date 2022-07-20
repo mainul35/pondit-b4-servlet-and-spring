@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+**/node_modules
+**/*.iml
+**/package-lock.json
+**/.idea
