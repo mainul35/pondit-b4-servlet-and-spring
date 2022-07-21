@@ -1,12 +1,8 @@
 package com.mainul35.bsuserinfo.config.openapi;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class OpenApiConfig {

@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/users")
+@CrossOrigin("${cross.origin}")
 public interface IUserInfoController {
 
     @GetMapping
