@@ -65,7 +65,7 @@
     </dependencies>
 
     <modules>
-<!--        <module>social-medium-parent</module>-->
+        <module>app-social-medium</module>
         <module>bs-userinfo</module>
     </modules>
 </project>
