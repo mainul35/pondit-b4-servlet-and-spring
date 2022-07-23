@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FilterModel} from "../../models/filter.model";
 import {UserInfoService} from "../../services/user-info.service";
+import {UserInfoModel} from "../../models/user-info.model";
 
 @Component({
   selector: 'app-user-search',
@@ -30,11 +31,12 @@ export class UserSearchComponent implements OnInit {
     filter.field = this.field
     filter.value = this.value
     this.userInfoService.searchUser(filter).subscribe(value1 => {
+      debugger
+      let user = value1?.body?.[0];
+      if (user) {
+        localStorage.setItem("user", JSON.stringify(user))
+      }
       console.log(value1)
-    }, error => {
-      console.error(error)
     });
   }
-
-
 }
