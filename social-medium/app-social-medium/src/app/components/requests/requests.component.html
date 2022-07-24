@@ -1,1 +1,23 @@
-<p>requests works!</p>
+<div class="content">
+  <div class="container">
+    <!-- end row -->
+    <div class="row">
+      <div class="col-lg-4" *ngFor="let requestedConnection of requests">
+        <div class="text-center card-box">
+          <div class="member-card pt-2 pb-2">
+            <div class="thumb-lg member-thumb mx-auto"><img src="{{requestedConnection.profileImagePath}}" class="rounded-circle img-thumbnail" alt="profile-image"></div>
+            <div class="">
+              <h4>{{requestedConnection.firstName}} {{requestedConnection.surname}}</h4>
+              <p>Email: {{requestedConnection.email}}</p>
+              <p class="text-muted">@Founder <span>| </span><span><a href="#" class="text-pink">websitename.com</a></span></p>
+            </div>
+            <button type="button" class="btn btn-success mt-3 btn-rounded waves-effect w-md waves-light" (click)="acceptConnectionRequest(requestedConnection.id)">Accept Connection</button>
+            <button type="button" class="btn btn-danger mt-3 btn-rounded waves-effect w-md waves-light" (click)="blockConnectionRequest(requestedConnection.id)">Block Connection</button>
+          </div>
+        </div>
+      </div>
+      <!-- end col -->
+    </div>
+  </div>
+  <!-- container -->
+</div>

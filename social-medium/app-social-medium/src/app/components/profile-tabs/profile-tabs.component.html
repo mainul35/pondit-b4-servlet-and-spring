@@ -1,0 +1,30 @@
+<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+  <li [ngbNavItem]="1">
+    <a ngbNavLink>Connections</a>
+    <ng-template ngbNavContent>
+      <app-connections></app-connections>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="2">
+    <a ngbNavLink>Requests</a>
+    <ng-template ngbNavContent>
+      <app-requests></app-requests>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="3">
+    <a ngbNavLink>Blocked</a>
+    <ng-template ngbNavContent>
+      <app-blocked></app-blocked>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="4">
+    <a ngbNavLink>Browse Users</a>
+    <ng-template ngbNavContent>
+      <app-browser-users></app-browser-users>
+    </ng-template>
+  </li>
+</ul>
+
+<div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+<pre>Active: {{ active }}</pre>

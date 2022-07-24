@@ -4,5 +4,5 @@ export class UserInfoModel {
   surname ?: string
   email ?: string
   username ?: string
-  profileImage ?: string
+  profileImagePath ?: string
 }

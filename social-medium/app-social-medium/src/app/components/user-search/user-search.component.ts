@@ -12,6 +12,8 @@ export class UserSearchComponent implements OnInit {
 
   field ?: string = "Please select a type";
   value ?: string
+  userFound: boolean = false;
+  user ?: UserInfoModel;
 
   constructor(private userInfoService: UserInfoService) { }
 
@@ -31,12 +33,13 @@ export class UserSearchComponent implements OnInit {
     filter.field = this.field
     filter.value = this.value
     this.userInfoService.searchUser(filter).subscribe(value1 => {
-      debugger
       let user = value1?.body?.[0];
       if (user) {
+        this.userFound = true;
         localStorage.setItem("user", JSON.stringify(user))
+        this.user = user;
+        console.log(user)
       }
-      console.log(value1)
     });
   }
 }

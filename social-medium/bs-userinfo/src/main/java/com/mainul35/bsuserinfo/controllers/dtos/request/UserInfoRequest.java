@@ -11,5 +11,5 @@ public class UserInfoRequest {
     private String surname;
     private String email;
     private String username;
-    private String profileImage;
+    private String profileImagePath;
 }

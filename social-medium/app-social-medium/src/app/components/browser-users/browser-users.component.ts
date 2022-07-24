@@ -3,33 +3,27 @@ import {UserInfoModel} from "../../models/user-info.model";
 import {UserInfoService} from "../../services/user-info.service";
 
 @Component({
-  selector: 'app-requests',
-  templateUrl: './requests.component.html',
-  styleUrls: ['./requests.component.scss']
+  selector: 'app-browser-users',
+  templateUrl: './browser-users.component.html',
+  styleUrls: ['./browser-users.component.scss']
 })
-export class RequestsComponent implements OnInit {
+export class BrowserUsersComponent implements OnInit {
 
-  requests ?: UserInfoModel[];
+  globalUsers ?: UserInfoModel[];
   currentPageIdx = 1;
   constructor(private userInfoService: UserInfoService) { }
 
   ngOnInit(): void {
-
     let userStr = localStorage.getItem("user");
     // @ts-ignore
     let loggedInUser: UserInfoModel = JSON.parse(userStr)
-    this.userInfoService.getConnectionRequests(loggedInUser?.id, this.currentPageIdx)
+    this.userInfoService.getGlobalUsers(loggedInUser?.id, this.currentPageIdx)
       .subscribe(value => {
-        this.requests = value;
+        this.globalUsers = value;
       })
-
   }
 
-  acceptConnectionRequest(id?: string) {
+  addFriend(id ?: string) {
 
-  }
-
-  blockConnectionRequest(id ?: string) {
-    
   }
 }
