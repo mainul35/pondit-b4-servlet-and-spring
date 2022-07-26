@@ -29,6 +29,6 @@ export class UserInfoService {
   }
 
   getGlobalUsers(id: string | undefined, currentPageIdx: number) {
-    return this.httpClient.get<UserInfoModel[]>(environment.SERVER_URL + "users/"+ id +"/browse?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
+    return this.httpClient.get<UserInfoModel[]>(environment.SERVER_URL + "users/"+ id +"/non-connected-users?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
   }
 }

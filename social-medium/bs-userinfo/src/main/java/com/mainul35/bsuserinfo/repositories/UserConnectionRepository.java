@@ -9,9 +9,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface UserConnectionRepository extends PagingAndSortingRepository<UserConnection, UserConnectionId> {
     Optional<UserConnection> findByUserConnectionId(UserConnectionId userConnectionId);
-
+    Stream<UserConnection> findByUserConnectionId_User(UserEntity user);
+    Stream<UserConnection> findByUserConnectionId_Connection(UserEntity user);
     List<UserConnection> findAllByUserConnectionId_UserAndConnectionStatus(UserEntity user, ConnectionStatus status, Pageable pageable);
 }

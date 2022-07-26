@@ -26,7 +26,7 @@ public interface IConnectionController {
     ResponseEntity<?> unblockConnection(@PathVariable("userId") String userId, @PathVariable("connectionId") String connectionId);
 
     @GetMapping("/requests")
-    ResponseEntity<List<UserInfoResponse>> getConnectionRequests(@PathVariable(name = "userId", required = false) String userId, @RequestParam("pageIdx") Integer pageIxd, @RequestParam(value = "itemsPerPage", defaultValue = "6") Integer itemsPerPage);
+    ResponseEntity<List<UserInfoResponse>> getConnectionRequests(@PathVariable(name = "userId", required = false) String userId, @RequestParam("pageIdx") Integer pageIxd, @RequestParam(value = "itemsPerPage") Integer itemsPerPage);
 
     @GetMapping("/blocked")
     ResponseEntity<List<UserInfoResponse>> getBlockedConnections(@PathVariable(name = "userId", required = false) String userId, @RequestParam("pageIdx") Integer pageIxd, @RequestParam("itemsPerPage") Integer itemsPerPage);

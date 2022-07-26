@@ -16,8 +16,8 @@ public record UserConnectionController(UserConnectionService userConnectionServi
 
     @Override
     public ResponseEntity<?> requestConnection(String userId, String connectionId) {
-        userConnectionService.addConnection(userId, connectionId);
-        return ResponseEntity.ok("Connection request sent");
+        var connection = userConnectionService.addConnection(userId, connectionId);
+        return ResponseEntity.ok(connection);
     }
 
     @Override

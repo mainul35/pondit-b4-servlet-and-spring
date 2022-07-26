@@ -3,7 +3,7 @@
     <!-- end row -->
     <div class="row">
       <div class="col-lg-4" *ngFor="let user of globalUsers">
-        <div class="text-center card-box">
+        <div class="text-center card-box" *ngIf="!user.requestedAsFriend">
           <div class="member-card pt-2 pb-2">
             <div class="thumb-lg member-thumb mx-auto"><img src="{{user.profileImagePath}}" class="rounded-circle img-thumbnail" alt="profile-image"></div>
             <div class="">
@@ -11,7 +11,7 @@
               <p>Email: {{user.email}}</p>
               <p class="text-muted">@Founder <span>| </span><span><a href="#" class="text-pink">websitename.com</a></span></p>
             </div>
-            <button type="button" class="btn btn-success mt-3 btn-rounded waves-effect w-md waves-light" (click)="addFriend(user.id)">Accept Connection</button>
+            <button type="button" class="btn btn-success mt-3 btn-rounded waves-effect w-md waves-light" (click)="addFriend(user.id)">Connect</button>
           </div>
         </div>
       </div>

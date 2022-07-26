@@ -11,7 +11,7 @@ public class OpenApiConfig {
     public GroupedOpenApi userInfoApi() {
         return GroupedOpenApi.builder()
                 .group("User Info")
-                .pathsToMatch("/users", "/users/create", "/users/search")
+                .pathsToMatch("/users", "/users/create", "/users/search", "/users/{id}/non-connected-users")
                 .build();
     }
 

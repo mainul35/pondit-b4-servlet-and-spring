@@ -1,9 +1,6 @@
 package com.mainul35.bsuserinfo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
@@ -16,6 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
+@EqualsAndHashCode
 public class UserConnectionId implements Serializable {
     @Serial
     private static final long serialVersionUID = -5259789512124211493L;

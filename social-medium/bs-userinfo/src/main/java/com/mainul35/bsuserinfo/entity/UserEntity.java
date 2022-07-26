@@ -1,6 +1,7 @@
 package com.mainul35.bsuserinfo.entity;
 
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Table(name = "tbl_user")
+@EqualsAndHashCode
 public class UserEntity {
 
     @Id

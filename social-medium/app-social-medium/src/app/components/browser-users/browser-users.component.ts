@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserInfoModel} from "../../models/user-info.model";
 import {UserInfoService} from "../../services/user-info.service";
+import {UserConnectionService} from "../../services/user-connection.service";
 
 @Component({
   selector: 'app-browser-users',
@@ -11,7 +12,7 @@ export class BrowserUsersComponent implements OnInit {
 
   globalUsers ?: UserInfoModel[];
   currentPageIdx = 1;
-  constructor(private userInfoService: UserInfoService) { }
+  constructor(private userInfoService: UserInfoService, private userConnectionService: UserConnectionService) { }
 
   ngOnInit(): void {
     let userStr = localStorage.getItem("user");
@@ -23,7 +24,16 @@ export class BrowserUsersComponent implements OnInit {
       })
   }
 
-  addFriend(id ?: string) {
-
+  addFriend(idToConnect ?: string) {
+    let userStr = localStorage.getItem("user");
+    // @ts-ignore
+    let loggedInUser: UserInfoModel = JSON.parse(userStr)
+    this.userConnectionService.connectWithUser(idToConnect, loggedInUser.id).subscribe(resp => {
+      this.globalUsers?.forEach((user) => {
+        if (user.id === resp.body?.id) {
+          user.requestedAsFriend = true
+        }
+      })
+    })
   }
 }
