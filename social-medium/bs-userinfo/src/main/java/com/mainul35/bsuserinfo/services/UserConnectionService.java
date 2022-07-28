@@ -102,31 +102,40 @@ public class UserConnectionService {
         var stream1 = connectionRepository
                 .findAllByUserConnectionId_UserAndConnectionStatus(user, ConnectionStatus.REQUESTED);
         var stream2 = connectionRepository.findAllByUserConnectionId_ConnectionAndConnectionStatus(user, ConnectionStatus.REQUESTED);
-        return Stream.concat(stream1, stream2)
+        return Stream.concat(stream1, stream2).parallel()
                 .map(userConnection -> populateUserConnectionInfoResponseFromUserEntity(userConnection, user))
-                .filter(userConnection -> !userConnection.getRequestedById().equals(userId))
+                .filter(userConnection -> !userId.equals(userConnection.getRequestedById()))
                 .skip((long) (pageIxd - 1) * itemsPerPage).limit(itemsPerPage)
                 .toList();
     }
 
-    public List<UserEntity> getAllBlockedConnections(String userId, Integer pageIxd, Integer itemsPerPage) {
-        var user = userInfoRepository.findById(userId);
-        user.orElseThrow(() -> new NoContentException("No user found with this user Id"));
-        var list = connectionRepository
-                .findAllByUserConnectionId_UserAndConnectionStatus(user.get(), ConnectionStatus.BLOCKED)
-                .toList();
-        return populatedUserEntitiesFromConnectionList(list);
-    }
-
-    public List<UserEntity> getAllAcceptedConnections(String userId, Integer pageIxd, Integer itemsPerPage) {
+    public List<UserConnectionInfoResponse> getAllBlockedConnections(String userId, Integer pageIxd, Integer itemsPerPage) {
         var user = userInfoRepository.findById(userId)
                 .orElseThrow(() -> new NoContentException("No user found with this user Id"));
-        var list = connectionRepository
-                .findAllByUserConnectionId_UserAndConnectionStatus(user, ConnectionStatus.ACCEPTED)
+        var stream1 = connectionRepository
+                .findAllByUserConnectionId_UserAndConnectionStatus(user, ConnectionStatus.BLOCKED);
+        var stream2 = connectionRepository.findAllByUserConnectionId_ConnectionAndConnectionStatus(user, ConnectionStatus.BLOCKED);
+        return Stream.concat(stream1, stream2)
+                .map(userConnection -> populateUserConnectionInfoResponseFromUserEntity(userConnection, user))
+                .filter(userConnection -> !userId.equals(userConnection.getRequestedById()))
+                .skip((long) (pageIxd - 1) * itemsPerPage).limit(itemsPerPage)
                 .toList();
-        return populatedUserEntitiesFromConnectionList(list);
     }
 
+    public List<UserConnectionInfoResponse> getAllAcceptedConnections(String userId, Integer pageIxd, Integer itemsPerPage) {
+        var user = userInfoRepository.findById(userId)
+                .orElseThrow(() -> new NoContentException("No user found with this user Id"));
+        var stream1 = connectionRepository
+                .findAllByUserConnectionId_UserAndConnectionStatus(user, ConnectionStatus.ACCEPTED);
+        var stream2 = connectionRepository.findAllByUserConnectionId_ConnectionAndConnectionStatus(user, ConnectionStatus.ACCEPTED);
+        return Stream.concat(stream1, stream2)
+                .map(userConnection -> populateUserConnectionInfoResponseFromUserEntity(userConnection, user))
+                .filter(userConnection -> !userId.equals(userConnection.getRequestedById()))
+                .skip((long) (pageIxd - 1) * itemsPerPage).limit(itemsPerPage)
+                .toList();
+    }
+
+    @Deprecated
     private List<UserEntity> populatedUserEntitiesFromConnectionList(List<UserConnection> list) {
         List<UserEntity> userEntities = new ArrayList<>();
         list.forEach(userConnection -> {
@@ -135,6 +144,7 @@ public class UserConnectionService {
         });
         return userEntities;
     }
+    @Deprecated
     private PageRequest sortAndPaginate(Integer pageIxd, Integer itemsPerPage) {
         return PageRequest.of(pageIxd - 1, itemsPerPage);
     }

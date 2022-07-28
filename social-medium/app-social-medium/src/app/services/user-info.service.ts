@@ -13,8 +13,8 @@ export class UserInfoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getConnectedUsers(userId ?: string, currentPageIdx ?: number): Observable<UserInfoModel[]> {
-    return this.httpClient.get<UserInfoModel[]>(environment.SERVER_URL + "users/"+ userId +"/connections?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
+  getConnectedUsers(userId ?: string, currentPageIdx ?: number): Observable<UserConnectionModel[]> {
+    return this.httpClient.get<UserConnectionModel[]>(environment.SERVER_URL + "users/"+ userId +"/connections?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
   }
 
   searchUser(filter: FilterModel): Observable<HttpResponse<UserInfoModel[]>> {
@@ -25,8 +25,8 @@ export class UserInfoService {
     return this.httpClient.get<UserConnectionModel[]>(environment.SERVER_URL + "users/"+ id +"/connections/requests?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
   }
 
-  getBlockedUsers(id: string | undefined, currentPageIdx: number): Observable<UserInfoModel[]> {
-    return this.httpClient.get<UserInfoModel[]>(environment.SERVER_URL + "users/"+ id +"/connections/blocked?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
+  getBlockedUsers(id: string | undefined, currentPageIdx: number): Observable<UserConnectionModel[]> {
+    return this.httpClient.get<UserConnectionModel[]>(environment.SERVER_URL + "users/"+ id +"/connections/blocked?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
   }
 
   getGlobalUsers(id: string | undefined, currentPageIdx: number): Observable<UserConnectionModel[]> {

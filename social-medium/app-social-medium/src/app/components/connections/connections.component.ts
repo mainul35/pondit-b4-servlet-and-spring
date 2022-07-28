@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UserInfoService} from "../../services/user-info.service";
 import {UserInfoModel} from "../../models/user-info.model";
+import {UserConnectionModel} from "../../models/user-connection.model";
 
 @Component({
   selector: 'app-connections',
@@ -8,7 +9,7 @@ import {UserInfoModel} from "../../models/user-info.model";
   styleUrls: ['./connections.component.scss']
 })
 export class ConnectionsComponent implements OnInit {
-  connections ?: UserInfoModel[];
+  userConnections ?: UserConnectionModel[] = [];
   currentPageIdx = 1;
   constructor(private userInfoService: UserInfoService) { }
 
@@ -19,7 +20,7 @@ export class ConnectionsComponent implements OnInit {
     let loggedInUser: UserInfoModel = JSON.parse(userStr)
     this.userInfoService.getConnectedUsers(loggedInUser?.id, this.currentPageIdx)
       .subscribe(value => {
-        this.connections = value;
+        this.userConnections = value;
       })
   }
 

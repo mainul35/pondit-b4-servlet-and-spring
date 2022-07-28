@@ -63,15 +63,15 @@ public record UserConnectionController(UserConnectionService userConnectionServi
     }
 
     @Override
-    public ResponseEntity<List<UserInfoResponse>> getBlockedConnections(String userId, Integer pageIxd, Integer itemsPerPage) {
+    public ResponseEntity<List<UserConnectionInfoResponse>> getBlockedConnections(String userId, Integer pageIxd, Integer itemsPerPage) {
         var list = userConnectionService.getAllBlockedConnections(userId, pageIxd, itemsPerPage);
-        return ResponseEntity.ok(this.convertUserEntityListToUserInfoResponseList(list));
+        return ResponseEntity.ok(list);
     }
 
     @Override
-    public ResponseEntity<List<UserInfoResponse>> getConnectedUsers(String userId, Integer pageIxd, Integer itemsPerPage) {
+    public ResponseEntity<List<UserConnectionInfoResponse>> getConnectedUsers(String userId, Integer pageIxd, Integer itemsPerPage) {
         var list = userConnectionService.getAllAcceptedConnections(userId, pageIxd, itemsPerPage);
-        return ResponseEntity.ok(this.convertUserEntityListToUserInfoResponseList(list));
+        return ResponseEntity.ok(list);
     }
 
     private List<UserInfoResponse> convertUserEntityListToUserInfoResponseList(List<UserEntity> userEntityList) {

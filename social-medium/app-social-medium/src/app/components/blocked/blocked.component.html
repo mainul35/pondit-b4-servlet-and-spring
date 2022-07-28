@@ -2,16 +2,16 @@
   <div class="container">
     <!-- end row -->
     <div class="row">
-      <div class="col-lg-4" *ngFor="let blockedUser of blockedUsers">
+      <div class="col-lg-4" *ngFor="let blockedUserConnection of blockedUserConnections">
         <div class="text-center card-box">
           <div class="member-card pt-2 pb-2">
-            <div class="thumb-lg member-thumb mx-auto"><img src="{{blockedUser.profileImagePath}}" class="rounded-circle img-thumbnail" alt="profile-image"></div>
+            <div class="thumb-lg member-thumb mx-auto"><img src="{{blockedUserConnection?.connection?.profileImagePath}}" class="rounded-circle img-thumbnail" alt="profile-image"></div>
             <div class="">
-              <h4>{{blockedUser.firstName}} {{blockedUser.surname}}</h4>
-              <p>Email: {{blockedUser.email}}</p>
+              <h4>{{blockedUserConnection?.connection?.firstName}} {{blockedUserConnection?.connection?.surname}}</h4>
+              <p>Email: {{blockedUserConnection?.connection?.email}}</p>
               <p class="text-muted">@Founder <span>| </span><span><a href="#" class="text-pink">websitename.com</a></span></p>
             </div>
-            <button type="button" class="btn btn-success mt-3 btn-warning waves-effect w-md waves-light" (click)="unblock(blockedUser.id)">Unblock Connection</button>
+            <button type="button" class="btn btn-success mt-3 btn-warning waves-effect w-md waves-light" (click)="unblock(blockedUserConnection?.connection?.id)">Unblock Connection</button>
           </div>
         </div>
       </div>
