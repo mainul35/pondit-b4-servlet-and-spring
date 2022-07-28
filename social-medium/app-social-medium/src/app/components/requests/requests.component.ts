@@ -33,7 +33,7 @@ export class RequestsComponent implements OnInit {
     // @ts-ignore
     let loggedInUser: UserInfoModel = JSON.parse(userStr)
     console.log(this.removableElement?.nativeElement)
-    this.userConnectionService.accept(idToAccept, loggedInUser?.id).subscribe(resp => {
+    this.userConnectionService.acceptConnection(idToAccept, loggedInUser?.id).subscribe(resp => {
       this.requests?.forEach(request => {
         if (resp.body?.connection?.id === request?.connection?.id && resp.body?.status === "ACCEPTED") {
           this.removableElement?.nativeElement.getElementsByClassName(`removable-${request?.connection?.id}`)[0].parentElement.remove()
@@ -42,11 +42,31 @@ export class RequestsComponent implements OnInit {
     })
   }
 
-  blockConnectionRequest(id ?: string) {
-
+  blockConnectionRequest(idToBlock ?: string) {
+    let userStr = localStorage.getItem("user");
+    // @ts-ignore
+    let loggedInUser: UserInfoModel = JSON.parse(userStr)
+    console.log(this.removableElement?.nativeElement)
+    this.userConnectionService.blockConnection(idToBlock, loggedInUser?.id).subscribe(resp => {
+      this.requests?.forEach(request => {
+        if (resp.body?.connection?.id === request?.connection?.id && resp.body?.status === "BLOCKED") {
+          this.removableElement?.nativeElement.getElementsByClassName(`removable-${request?.connection?.id}`)[0].parentElement.remove()
+        }
+      })
+    })
   }
 
-  ignoreConnectionRequest(id?: string) {
-
+  ignoreConnectionRequest(idToIgnore?: string) {
+    let userStr = localStorage.getItem("user");
+    // @ts-ignore
+    let loggedInUser: UserInfoModel = JSON.parse(userStr)
+    console.log(this.removableElement?.nativeElement)
+    this.userConnectionService.rejectConnection(idToIgnore, loggedInUser?.id).subscribe(resp => {
+      this.requests?.forEach(request => {
+        if (resp.body?.connection?.id === request?.connection?.id && resp.body?.status === "REJECTED") {
+          this.removableElement?.nativeElement.getElementsByClassName(`removable-${request?.connection?.id}`)[0].parentElement.remove()
+        }
+      })
+    })
   }
 }

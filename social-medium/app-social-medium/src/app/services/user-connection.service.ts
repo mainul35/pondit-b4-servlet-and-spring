@@ -17,7 +17,19 @@ export class UserConnectionService {
     return this.httpClient.post<UserConnectionModel>(environment.SERVER_URL + `users/${id}/connections/request/${idToConnect}`, null, {observe: 'response'});
   }
 
-  accept(idToAccept ?: string, id ?: string): Observable<HttpResponse<UserConnectionModel>> {
+  acceptConnection(idToAccept ?: string, id ?: string): Observable<HttpResponse<UserConnectionModel>> {
     return this.httpClient.put<UserConnectionModel>(environment.SERVER_URL + `users/${id}/connections/accept/${idToAccept}`, null, {observe: 'response'})
+  }
+
+  rejectConnection(idToIgnore ?: string, id ?: string): Observable<HttpResponse<UserConnectionModel>> {
+    return this.httpClient.put<UserConnectionModel>(environment.SERVER_URL + `users/${id}/connections/reject/${idToIgnore}`, null, {observe: 'response'})
+  }
+
+  blockConnection(idToBlock ?: string, id ?: string): Observable<HttpResponse<UserConnectionModel>> {
+    return this.httpClient.put<UserConnectionModel>(environment.SERVER_URL + `users/${id}/connections/block/${idToBlock}`, null, {observe: 'response'})
+  }
+
+  unblockConnection(idToUnblock ?: string, id ?: string): Observable<HttpResponse<UserConnectionModel>> {
+    return this.httpClient.put<UserConnectionModel>(environment.SERVER_URL + `users/${id}/connections/unblock/${idToUnblock}`, null, {observe: 'response'})
   }
 }

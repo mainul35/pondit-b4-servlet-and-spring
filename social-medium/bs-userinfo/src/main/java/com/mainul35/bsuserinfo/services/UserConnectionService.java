@@ -61,7 +61,7 @@ public class UserConnectionService {
         return prepareUserConnectionResponse(connectionRepository.save(userConnection), userId) ;
     }
 
-    public void rejectConnection(String userId, String connectionId) {
+    public UserConnectionInfoResponse rejectConnection(String userId, String connectionId) {
         var userConnection = connectionRepository.findByUserConnectionId(getUserConnectionId(userId, connectionId))
                 .orElse(connectionRepository.findByUserConnectionId(getUserConnectionId(connectionId, userId)).orElse(null));
         if (Objects.isNull(userConnection)) {
@@ -69,10 +69,11 @@ public class UserConnectionService {
         }
         userConnection.setConnectionStatus(ConnectionStatus.REJECTED);
         userConnection.setRequestedById(null);
-        connectionRepository.save(userConnection);
+        userConnection.setBlockedById(null);
+        return prepareUserConnectionResponse(connectionRepository.save(userConnection), userId);
     }
 
-    public void blockConnection(String userId, String connectionId) {
+    public UserConnectionInfoResponse blockConnection(String userId, String connectionId) {
         var userConnection = connectionRepository.findByUserConnectionId(getUserConnectionId(userId, connectionId))
                 .orElse(connectionRepository.findByUserConnectionId(getUserConnectionId(connectionId, userId)).orElse(null));
         if (Objects.isNull(userConnection)) {
@@ -81,10 +82,10 @@ public class UserConnectionService {
         userConnection.setConnectionStatus(ConnectionStatus.BLOCKED);
         userConnection.setRequestedById(null);
         userConnection.setBlockedById(userId);
-        connectionRepository.save(userConnection);
+        return prepareUserConnectionResponse(connectionRepository.save(userConnection), userId);
     }
 
-    public void unblockConnection(String userId, String connectionId) {
+    public UserConnectionInfoResponse unblockConnection(String userId, String connectionId) {
         var userConnection = connectionRepository.findByUserConnectionId(getUserConnectionId(userId, connectionId))
                 .orElse(connectionRepository.findByUserConnectionId(getUserConnectionId(connectionId, userId)).orElse(null));
         if (Objects.isNull(userConnection)) {
@@ -93,7 +94,7 @@ public class UserConnectionService {
         userConnection.setConnectionStatus(ConnectionStatus.UNBLOCKED);
         userConnection.setRequestedById(null);
         userConnection.setBlockedById(null);
-        connectionRepository.save(userConnection);
+        return prepareUserConnectionResponse(connectionRepository.save(userConnection), userId);
     }
 
     public List<UserConnectionInfoResponse> getAllConnectionRequests(String userId, Integer pageIxd, Integer itemsPerPage) {
@@ -117,7 +118,7 @@ public class UserConnectionService {
         var stream2 = connectionRepository.findAllByUserConnectionId_ConnectionAndConnectionStatus(user, ConnectionStatus.BLOCKED);
         return Stream.concat(stream1, stream2)
                 .map(userConnection -> populateUserConnectionInfoResponseFromUserEntity(userConnection, user))
-                .filter(userConnection -> !userId.equals(userConnection.getRequestedById()))
+                .filter(userConnection -> userId.equals(userConnection.getBlockedById()))
                 .skip((long) (pageIxd - 1) * itemsPerPage).limit(itemsPerPage)
                 .toList();
     }

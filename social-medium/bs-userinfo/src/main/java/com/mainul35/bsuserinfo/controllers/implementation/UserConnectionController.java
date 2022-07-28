@@ -40,20 +40,20 @@ public record UserConnectionController(UserConnectionService userConnectionServi
 
     @Override
     public ResponseEntity<?> rejectConnection(String userId, String connectionId) {
-        userConnectionService.rejectConnection(userId, connectionId);
-        return ResponseEntity.ok("Connection request has been rejected");
+        var rejectedConnection = userConnectionService.rejectConnection(userId, connectionId);
+        return ResponseEntity.ok(rejectedConnection);
     }
 
     @Override
     public ResponseEntity<?> blockConnection(String userId, String connectionId) {
-        userConnectionService.blockConnection(userId, connectionId);
-        return ResponseEntity.ok("User blocked successfully");
+        var blockedConnection = userConnectionService.blockConnection(userId, connectionId);
+        return ResponseEntity.ok(blockedConnection);
     }
 
     @Override
     public ResponseEntity<?> unblockConnection(String userId, String connectionId) {
-        userConnectionService.unblockConnection(userId, connectionId);
-        return ResponseEntity.ok("User unblocked successfully");
+        var unblockedConnection = userConnectionService.unblockConnection(userId, connectionId);
+        return ResponseEntity.ok(unblockedConnection);
     }
 
     @Override
