@@ -1,27 +1,26 @@
 package com.mainul35.bsuserinfo.services;
 
+import com.mainul35.bsuserinfo.controllers.dtos.response.UserConnectionInfoResponse;
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
 import com.mainul35.bsuserinfo.entity.ConnectionStatus;
 import com.mainul35.bsuserinfo.entity.UserConnection;
 import com.mainul35.bsuserinfo.entity.UserConnectionId;
 import com.mainul35.bsuserinfo.entity.UserEntity;
-import com.mainul35.bsuserinfo.enums.Field;
 import com.mainul35.bsuserinfo.exceptions.NoContentException;
 import com.mainul35.bsuserinfo.repositories.UserConnectionRepository;
 import com.mainul35.bsuserinfo.repositories.UserInfoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
+@Transactional
 public class UserConnectionService {
 
     private final UserInfoRepository userInfoRepository;
@@ -32,14 +31,13 @@ public class UserConnectionService {
         this.connectionRepository = connectionRepository;
     }
     @Transactional
-    public UserInfoResponse addConnection(String userId, String connectionId) {
+    public UserConnection addConnection(String userId, String connectionId) {
         var userConnection = connectionRepository.findByUserConnectionId(getUserConnectionId(userId, connectionId))
-                .orElse(new UserConnection(getUserConnectionId(userId, connectionId), ConnectionStatus.REQUESTED));
+                .orElse(connectionRepository.findByUserConnectionId(getUserConnectionId(connectionId, userId))
+                        .orElse(new UserConnection(getUserConnectionId(userId, connectionId), ConnectionStatus.REQUESTED)));
         userConnection.setConnectionStatus(ConnectionStatus.REQUESTED);
-        connectionRepository.save(userConnection);
-        UserInfoResponse response = new UserInfoResponse();
-        BeanUtils.copyProperties(userConnection.getUserConnectionId().getConnection(), response);
-        return response;
+        userConnection.setRequestedById(userId);
+        return connectionRepository.save(userConnection);
     }
 
     private UserConnectionId getUserConnectionId(String userId, String connectionId) {
@@ -57,6 +55,7 @@ public class UserConnectionService {
             throw new NoContentException("No such connection request found");
         }
         userConnection.setConnectionStatus(ConnectionStatus.ACCEPTED);
+        userConnection.setRequestedById(null);
         connectionRepository.save(userConnection);
     }
 
@@ -67,6 +66,7 @@ public class UserConnectionService {
             throw new NoContentException("No such connection request found");
         }
         userConnection.setConnectionStatus(ConnectionStatus.REJECTED);
+        userConnection.setRequestedById(null);
         connectionRepository.save(userConnection);
     }
 
@@ -77,6 +77,8 @@ public class UserConnectionService {
             throw new NoContentException("No such connection request found");
         }
         userConnection.setConnectionStatus(ConnectionStatus.BLOCKED);
+        userConnection.setRequestedById(null);
+        userConnection.setBlockedById(userId);
         connectionRepository.save(userConnection);
     }
 
@@ -87,14 +89,21 @@ public class UserConnectionService {
             throw new NoContentException("No such connection request found");
         }
         userConnection.setConnectionStatus(ConnectionStatus.UNBLOCKED);
+        userConnection.setRequestedById(null);
+        userConnection.setBlockedById(null);
         connectionRepository.save(userConnection);
     }
 
     public List<UserEntity> getAllConnectionRequests(String userId, Integer pageIxd, Integer itemsPerPage) {
         var user = userInfoRepository.findById(userId)
                 .orElseThrow(() -> new NoContentException("No user found with this user Id"));
-        var list = connectionRepository
-                .findAllByUserConnectionId_UserAndConnectionStatus(user, ConnectionStatus.REQUESTED, sortAndPaginate(pageIxd, itemsPerPage));
+        var stream1 = connectionRepository
+                .findAllByUserConnectionId_UserAndConnectionStatus(user, ConnectionStatus.REQUESTED);
+        var stream2 = connectionRepository.findAllByUserConnectionId_ConnectionAndConnectionStatus(user, ConnectionStatus.REQUESTED);
+        var list = Stream.concat(stream1, stream2)
+                .filter(userConnection -> !userConnection.getRequestedById().equals(userId))
+                .skip((pageIxd - 1) * itemsPerPage).limit(itemsPerPage)
+                .toList();
         return populatedUserEntitiesFromConnectionList(list);
     }
 
@@ -102,7 +111,8 @@ public class UserConnectionService {
         var user = userInfoRepository.findById(userId);
         user.orElseThrow(() -> new NoContentException("No user found with this user Id"));
         var list = connectionRepository
-                .findAllByUserConnectionId_UserAndConnectionStatus(user.get(), ConnectionStatus.BLOCKED, sortAndPaginate(pageIxd, itemsPerPage));
+                .findAllByUserConnectionId_UserAndConnectionStatus(user.get(), ConnectionStatus.BLOCKED)
+                .toList();
         return populatedUserEntitiesFromConnectionList(list);
     }
 
@@ -110,7 +120,8 @@ public class UserConnectionService {
         var user = userInfoRepository.findById(userId)
                 .orElseThrow(() -> new NoContentException("No user found with this user Id"));
         var list = connectionRepository
-                .findAllByUserConnectionId_UserAndConnectionStatus(user, ConnectionStatus.ACCEPTED, sortAndPaginate(pageIxd, itemsPerPage));
+                .findAllByUserConnectionId_UserAndConnectionStatus(user, ConnectionStatus.ACCEPTED)
+                .toList();
         return populatedUserEntitiesFromConnectionList(list);
     }
 
@@ -126,7 +137,7 @@ public class UserConnectionService {
         return PageRequest.of(pageIxd - 1, itemsPerPage);
     }
     @Transactional
-    public List<UserInfoResponse> getNonConnectedUsers(String id, Integer pageIxd, Integer itemsPerPage) {
+    public List<UserConnectionInfoResponse> getNonConnectedUsers(String id, Integer pageIxd, Integer itemsPerPage) {
         var userOptional = userInfoRepository.findById(id);
         if(userOptional.isPresent()){
             var stream1 = connectionRepository.findByUserConnectionId_User(userOptional.get());
@@ -135,22 +146,29 @@ public class UserConnectionService {
                     .filter(userConnection -> List.of(ConnectionStatus.UNBLOCKED, ConnectionStatus.NEW,ConnectionStatus.REJECTED)
                             .contains(userConnection.getConnectionStatus())
                     ).map(userConnection -> {
-                        UserEntity user = null;
+                        UserConnectionInfoResponse response = new UserConnectionInfoResponse();
                         if(userConnection.getUserConnectionId().getUser().equals(userOptional.get())) {
-                            user = userConnection.getUserConnectionId().getConnection();
+                            response.setUser(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getUser()));
+                            response.setConnection(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getConnection()));
                         } else {
-                            user = userConnection.getUserConnectionId().getUser();
+                            response.setConnection(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getUser()));
+                            response.setUser(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getConnection()));
                         }
-                        return user;
+                        response.setStatus(userConnection.getConnectionStatus());
+                        response.setRequestedById(userConnection.getRequestedById());
+                        response.setBlockedById(userConnection.getBlockedById());
+                        return response;
                     })
                     .skip((long) (pageIxd - 1) * itemsPerPage).limit(itemsPerPage)
-                    .map(user -> {
-                        UserInfoResponse response = new UserInfoResponse();
-                        BeanUtils.copyProperties(user, response);
-                        return response;
-                    }).toList();
+                    .toList();
         }
-        return List.of();
+        return List.of(new UserConnectionInfoResponse());
+    }
+
+    private UserInfoResponse mapUserEntityToResponseDto(UserEntity user) {
+        var userInfoResp = new UserInfoResponse();
+        BeanUtils.copyProperties(user, userInfoResp);
+        return userInfoResp;
     }
 }
 

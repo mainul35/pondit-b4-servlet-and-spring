@@ -2,6 +2,7 @@ package com.mainul35.bsuserinfo.controllers.definition;
 
 import com.mainul35.bsuserinfo.controllers.dtos.request.Filter;
 import com.mainul35.bsuserinfo.controllers.dtos.request.UserInfoRequest;
+import com.mainul35.bsuserinfo.controllers.dtos.response.UserConnectionInfoResponse;
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
 import com.mainul35.bsuserinfo.entity.UserEntity;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,5 @@ public interface IUserInfoController {
     ResponseEntity<UserInfoResponse> getUserProfileById(@PathVariable("id") String id);
 
     @GetMapping("/{id}/non-connected-users")
-    ResponseEntity<List<UserInfoResponse>> getNonConnectedUsers(@PathVariable("id") String id, @RequestParam("pageIdx") Integer pageIxd, @RequestParam(value = "itemsPerPage") Integer itemsPerPage);
+    ResponseEntity<List<UserConnectionInfoResponse>> getNonConnectedUsers(@PathVariable("id") String id, @RequestParam("pageIdx") Integer pageIxd, @RequestParam(value = "itemsPerPage") Integer itemsPerPage);
 }

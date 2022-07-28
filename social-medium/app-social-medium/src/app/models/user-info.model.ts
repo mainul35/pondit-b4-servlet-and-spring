@@ -5,5 +5,4 @@ export class UserInfoModel {
   email ?: string
   username ?: string
   profileImagePath ?: string
-  requestedAsFriend: any;
 }

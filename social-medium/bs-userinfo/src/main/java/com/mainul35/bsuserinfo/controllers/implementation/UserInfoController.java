@@ -3,6 +3,7 @@ package com.mainul35.bsuserinfo.controllers.implementation;
 import com.mainul35.bsuserinfo.controllers.definition.IUserInfoController;
 import com.mainul35.bsuserinfo.controllers.dtos.request.Filter;
 import com.mainul35.bsuserinfo.controllers.dtos.request.UserInfoRequest;
+import com.mainul35.bsuserinfo.controllers.dtos.response.UserConnectionInfoResponse;
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
 import com.mainul35.bsuserinfo.entity.UserEntity;
 import com.mainul35.bsuserinfo.services.UserConnectionService;
@@ -53,7 +54,7 @@ public record UserInfoController(UserInfoService userInfoService, UserConnection
     }
 
     @Override
-    public ResponseEntity<List<UserInfoResponse>> getNonConnectedUsers(String id, Integer pageIxd, Integer itemsPerPage) {
+    public ResponseEntity<List<UserConnectionInfoResponse>> getNonConnectedUsers(String id, Integer pageIxd, Integer itemsPerPage) {
         return ResponseEntity.ok(this.userConnectionService.getNonConnectedUsers(id, pageIxd, itemsPerPage));
     }
 }

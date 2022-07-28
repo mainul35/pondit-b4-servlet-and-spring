@@ -15,5 +15,6 @@ public interface UserConnectionRepository extends PagingAndSortingRepository<Use
     Optional<UserConnection> findByUserConnectionId(UserConnectionId userConnectionId);
     Stream<UserConnection> findByUserConnectionId_User(UserEntity user);
     Stream<UserConnection> findByUserConnectionId_Connection(UserEntity user);
-    List<UserConnection> findAllByUserConnectionId_UserAndConnectionStatus(UserEntity user, ConnectionStatus status, Pageable pageable);
+    Stream<UserConnection> findAllByUserConnectionId_UserAndConnectionStatus(UserEntity user, ConnectionStatus status);
+    Stream<UserConnection> findAllByUserConnectionId_ConnectionAndConnectionStatus(UserEntity user, ConnectionStatus status);
 }

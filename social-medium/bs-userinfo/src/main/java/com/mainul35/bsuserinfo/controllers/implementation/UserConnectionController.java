@@ -1,6 +1,7 @@
 package com.mainul35.bsuserinfo.controllers.implementation;
 
 import com.mainul35.bsuserinfo.controllers.definition.IConnectionController;
+import com.mainul35.bsuserinfo.controllers.dtos.response.UserConnectionInfoResponse;
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
 import com.mainul35.bsuserinfo.entity.UserEntity;
 import com.mainul35.bsuserinfo.services.UserConnectionService;
@@ -16,8 +17,13 @@ public record UserConnectionController(UserConnectionService userConnectionServi
 
     @Override
     public ResponseEntity<?> requestConnection(String userId, String connectionId) {
-        var connection = userConnectionService.addConnection(userId, connectionId);
-        return ResponseEntity.ok(connection);
+        var userConnection = userConnectionService.addConnection(userId, connectionId);
+        UserConnectionInfoResponse response = new UserConnectionInfoResponse();
+        BeanUtils.copyProperties(userConnection, response);
+        BeanUtils.copyProperties(userConnection.getUserConnectionId().getUser(), response.getUser());
+        BeanUtils.copyProperties(userConnection.getUserConnectionId().getConnection(), response.getConnection());
+        response.setStatus(userConnection.getConnectionStatus());
+        return ResponseEntity.ok(response);
     }
 
     @Override

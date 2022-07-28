@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {UserInfoModel} from "../models/user-info.model";
 import {environment} from "../../environments/environment";
 import {FilterModel} from "../models/filter.model";
+import {UserConnectionModel} from "../models/user-connection.model";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class UserInfoService {
     return this.httpClient.get<UserInfoModel[]>(environment.SERVER_URL + "users/"+ id +"/connections/blocked?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
   }
 
-  getGlobalUsers(id: string | undefined, currentPageIdx: number) {
-    return this.httpClient.get<UserInfoModel[]>(environment.SERVER_URL + "users/"+ id +"/non-connected-users?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
+  getGlobalUsers(id: string | undefined, currentPageIdx: number): Observable<UserConnectionModel[]> {
+    return this.httpClient.get<UserConnectionModel[]>(environment.SERVER_URL + "users/"+ id +"/non-connected-users?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
   }
 }

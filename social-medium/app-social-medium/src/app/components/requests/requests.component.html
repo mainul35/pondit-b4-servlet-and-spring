@@ -11,8 +11,11 @@
               <p>Email: {{requestedConnection.email}}</p>
               <p class="text-muted">@Founder <span>| </span><span><a href="#" class="text-pink">websitename.com</a></span></p>
             </div>
-            <button type="button" class="btn btn-success mt-3 btn-rounded waves-effect w-md waves-light" (click)="acceptConnectionRequest(requestedConnection.id)">Accept Connection</button>
-            <button type="button" class="btn btn-danger mt-3 btn-rounded waves-effect w-md waves-light" (click)="blockConnectionRequest(requestedConnection.id)">Block Connection</button>
+            <button type="button" class="btn btn-success mt-3 btn-rounded waves-effect w-md waves-light" (click)="acceptConnectionRequest(requestedConnection.id)">Accept</button>
+            &nbsp;
+            <button type="button" class="btn btn-warning mt-3 btn-rounded waves-effect w-md waves-light" (click)="ignoreConnectionRequest(requestedConnection.id)">Ignore</button>
+            &nbsp;
+            <button type="button" class="btn btn-danger mt-3 btn-rounded waves-effect w-md waves-light" (click)="blockConnectionRequest(requestedConnection.id)">Block</button>
           </div>
         </div>
       </div>

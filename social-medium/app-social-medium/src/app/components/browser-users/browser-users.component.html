@@ -2,16 +2,17 @@
   <div class="container">
     <!-- end row -->
     <div class="row">
-      <div class="col-lg-4" *ngFor="let user of globalUsers">
-        <div class="text-center card-box" *ngIf="!user.requestedAsFriend">
+      <div class="col-lg-4" *ngFor="let userConnection of userConnections">
+        <div class="text-center card-box">
           <div class="member-card pt-2 pb-2">
-            <div class="thumb-lg member-thumb mx-auto"><img src="{{user.profileImagePath}}" class="rounded-circle img-thumbnail" alt="profile-image"></div>
+            <div class="thumb-lg member-thumb mx-auto"><img src="{{userConnection?.connection?.profileImagePath}}" class="rounded-circle img-thumbnail" alt="profile-image"></div>
             <div class="">
-              <h4>{{user.firstName}} {{user.surname}}</h4>
-              <p>Email: {{user.email}}</p>
+              <h4>{{userConnection?.connection?.firstName}} {{userConnection?.connection?.surname}}</h4>
+              <p>Email: {{userConnection?.connection?.email}}</p>
               <p class="text-muted">@Founder <span>| </span><span><a href="#" class="text-pink">websitename.com</a></span></p>
             </div>
-            <button type="button" class="btn btn-success mt-3 btn-rounded waves-effect w-md waves-light" (click)="addFriend(user.id)">Connect</button>
+            <button *ngIf="!userConnection?.requestedById" type="button" class="btn btn-success mt-3 btn-rounded waves-effect w-md waves-light" (click)="addFriend(userConnection?.connection?.id)">Connect</button>
+            <button *ngIf="userConnection?.requestedById" type="button" class="btn btn-secondary mt-3 btn-rounded waves-effect w-md waves-light">Requested</button>
           </div>
         </div>
       </div>
