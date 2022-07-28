@@ -1,21 +1,21 @@
 <div class="content">
   <div class="container">
     <!-- end row -->
-    <div class="row">
+    <div class="row" #removable>
       <div class="col-lg-4" *ngFor="let requestedConnection of requests">
-        <div class="text-center card-box">
+        <div class="text-center card-box removable-{{requestedConnection?.connection?.id}}">
           <div class="member-card pt-2 pb-2">
-            <div class="thumb-lg member-thumb mx-auto"><img src="{{requestedConnection.profileImagePath}}" class="rounded-circle img-thumbnail" alt="profile-image"></div>
+            <div class="thumb-lg member-thumb mx-auto"><img src="{{requestedConnection?.connection?.profileImagePath}}" class="rounded-circle img-thumbnail" alt="profile-image"></div>
             <div class="">
-              <h4>{{requestedConnection.firstName}} {{requestedConnection.surname}}</h4>
-              <p>Email: {{requestedConnection.email}}</p>
+              <h4>{{requestedConnection?.connection?.firstName}} {{requestedConnection?.connection?.surname}}</h4>
+              <p>Email: {{requestedConnection?.connection?.email}}</p>
               <p class="text-muted">@Founder <span>| </span><span><a href="#" class="text-pink">websitename.com</a></span></p>
             </div>
-            <button type="button" class="btn btn-success mt-3 btn-rounded waves-effect w-md waves-light" (click)="acceptConnectionRequest(requestedConnection.id)">Accept</button>
+            <button type="button" class="btn btn-success mt-3 btn-rounded waves-effect w-md waves-light" (click)="acceptConnectionRequest(requestedConnection?.connection?.id)">Accept</button>
             &nbsp;
-            <button type="button" class="btn btn-warning mt-3 btn-rounded waves-effect w-md waves-light" (click)="ignoreConnectionRequest(requestedConnection.id)">Ignore</button>
+            <button type="button" class="btn btn-warning mt-3 btn-rounded waves-effect w-md waves-light" (click)="ignoreConnectionRequest(requestedConnection?.connection?.id)">Ignore</button>
             &nbsp;
-            <button type="button" class="btn btn-danger mt-3 btn-rounded waves-effect w-md waves-light" (click)="blockConnectionRequest(requestedConnection.id)">Block</button>
+            <button type="button" class="btn btn-danger mt-3 btn-rounded waves-effect w-md waves-light" (click)="blockConnectionRequest(requestedConnection?.connection?.id)">Block</button>
           </div>
         </div>
       </div>

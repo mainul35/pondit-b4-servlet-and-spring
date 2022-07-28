@@ -48,7 +48,8 @@ public class UserConnectionService {
         return new UserConnectionId(user, connection);
     }
 
-    public void acceptConnection(String userId, String connectionId) {
+    public UserConnectionInfoResponse acceptConnection(String userId, String connectionId) {
+
         var userConnection = connectionRepository.findByUserConnectionId(getUserConnectionId(userId, connectionId))
                 .orElse(connectionRepository.findByUserConnectionId(getUserConnectionId(connectionId, userId)).orElse(null));
         if (Objects.isNull(userConnection)) {
@@ -56,7 +57,8 @@ public class UserConnectionService {
         }
         userConnection.setConnectionStatus(ConnectionStatus.ACCEPTED);
         userConnection.setRequestedById(null);
-        connectionRepository.save(userConnection);
+        userConnection.setBlockedById(null);
+        return prepareUserConnectionResponse(connectionRepository.save(userConnection), userId) ;
     }
 
     public void rejectConnection(String userId, String connectionId) {
@@ -94,17 +96,17 @@ public class UserConnectionService {
         connectionRepository.save(userConnection);
     }
 
-    public List<UserEntity> getAllConnectionRequests(String userId, Integer pageIxd, Integer itemsPerPage) {
+    public List<UserConnectionInfoResponse> getAllConnectionRequests(String userId, Integer pageIxd, Integer itemsPerPage) {
         var user = userInfoRepository.findById(userId)
                 .orElseThrow(() -> new NoContentException("No user found with this user Id"));
         var stream1 = connectionRepository
                 .findAllByUserConnectionId_UserAndConnectionStatus(user, ConnectionStatus.REQUESTED);
         var stream2 = connectionRepository.findAllByUserConnectionId_ConnectionAndConnectionStatus(user, ConnectionStatus.REQUESTED);
-        var list = Stream.concat(stream1, stream2)
+        return Stream.concat(stream1, stream2)
+                .map(userConnection -> populateUserConnectionInfoResponseFromUserEntity(userConnection, user))
                 .filter(userConnection -> !userConnection.getRequestedById().equals(userId))
-                .skip((pageIxd - 1) * itemsPerPage).limit(itemsPerPage)
+                .skip((long) (pageIxd - 1) * itemsPerPage).limit(itemsPerPage)
                 .toList();
-        return populatedUserEntitiesFromConnectionList(list);
     }
 
     public List<UserEntity> getAllBlockedConnections(String userId, Integer pageIxd, Integer itemsPerPage) {
@@ -136,6 +138,10 @@ public class UserConnectionService {
     private PageRequest sortAndPaginate(Integer pageIxd, Integer itemsPerPage) {
         return PageRequest.of(pageIxd - 1, itemsPerPage);
     }
+
+    /**
+     * Will be used to return user suggestions
+     * */
     @Transactional
     public List<UserConnectionInfoResponse> getNonConnectedUsers(String id, Integer pageIxd, Integer itemsPerPage) {
         var userOptional = userInfoRepository.findById(id);
@@ -146,23 +152,32 @@ public class UserConnectionService {
                     .filter(userConnection -> List.of(ConnectionStatus.UNBLOCKED, ConnectionStatus.NEW,ConnectionStatus.REJECTED)
                             .contains(userConnection.getConnectionStatus())
                     ).map(userConnection -> {
-                        UserConnectionInfoResponse response = new UserConnectionInfoResponse();
-                        if(userConnection.getUserConnectionId().getUser().equals(userOptional.get())) {
-                            response.setUser(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getUser()));
-                            response.setConnection(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getConnection()));
-                        } else {
-                            response.setConnection(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getUser()));
-                            response.setUser(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getConnection()));
-                        }
-                        response.setStatus(userConnection.getConnectionStatus());
-                        response.setRequestedById(userConnection.getRequestedById());
-                        response.setBlockedById(userConnection.getBlockedById());
-                        return response;
+                        var userEntity = userOptional.get();
+                        return populateUserConnectionInfoResponseFromUserEntity(userConnection, userEntity);
                     })
                     .skip((long) (pageIxd - 1) * itemsPerPage).limit(itemsPerPage)
                     .toList();
         }
         return List.of(new UserConnectionInfoResponse());
+    }
+
+    private UserConnectionInfoResponse populateUserConnectionInfoResponseFromUserEntity(UserConnection userConnection, UserEntity userEntity) {
+        return prepareUserConnectionResponse(userConnection, userEntity.getId());
+    }
+
+    private UserConnectionInfoResponse prepareUserConnectionResponse(UserConnection userConnection, String userId) {
+        UserConnectionInfoResponse response = new UserConnectionInfoResponse();
+        if(userConnection.getUserConnectionId().getUser().getId().equals(userId)) {
+            response.setUser(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getUser()));
+            response.setConnection(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getConnection()));
+        } else {
+            response.setConnection(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getUser()));
+            response.setUser(this.mapUserEntityToResponseDto(userConnection.getUserConnectionId().getConnection()));
+        }
+        response.setStatus(userConnection.getConnectionStatus());
+        response.setRequestedById(userConnection.getRequestedById());
+        response.setBlockedById(userConnection.getBlockedById());
+        return response;
     }
 
     private UserInfoResponse mapUserEntityToResponseDto(UserEntity user) {

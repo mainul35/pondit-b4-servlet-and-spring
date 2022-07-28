@@ -1,5 +1,6 @@
 package com.mainul35.bsuserinfo.controllers.definition;
 
+import com.mainul35.bsuserinfo.controllers.dtos.response.UserConnectionInfoResponse;
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public interface IConnectionController {
     ResponseEntity<?> unblockConnection(@PathVariable("userId") String userId, @PathVariable("connectionId") String connectionId);
 
     @GetMapping("/requests")
-    ResponseEntity<List<UserInfoResponse>> getConnectionRequests(@PathVariable(name = "userId", required = false) String userId, @RequestParam("pageIdx") Integer pageIxd, @RequestParam(value = "itemsPerPage") Integer itemsPerPage);
+    ResponseEntity<List<UserConnectionInfoResponse>> getConnectionRequests(@PathVariable(name = "userId", required = false) String userId, @RequestParam("pageIdx") Integer pageIxd, @RequestParam(value = "itemsPerPage") Integer itemsPerPage);
 
     @GetMapping("/blocked")
     ResponseEntity<List<UserInfoResponse>> getBlockedConnections(@PathVariable(name = "userId", required = false) String userId, @RequestParam("pageIdx") Integer pageIxd, @RequestParam("itemsPerPage") Integer itemsPerPage);

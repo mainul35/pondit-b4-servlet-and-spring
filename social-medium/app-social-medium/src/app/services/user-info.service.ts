@@ -21,8 +21,8 @@ export class UserInfoService {
     return this.httpClient.post<UserInfoModel[]>(environment.SERVER_URL + "users/search", filter, {observe: 'response'});
   }
 
-  getConnectionRequests(id: string | undefined, currentPageIdx: number): Observable<UserInfoModel[]> {
-    return this.httpClient.get<UserInfoModel[]>(environment.SERVER_URL + "users/"+ id +"/connections/requests?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
+  getConnectionRequests(id: string | undefined, currentPageIdx: number): Observable<UserConnectionModel[]> {
+    return this.httpClient.get<UserConnectionModel[]>(environment.SERVER_URL + "users/"+ id +"/connections/requests?pageIdx=" + currentPageIdx + "&itemsPerPage=10");
   }
 
   getBlockedUsers(id: string | undefined, currentPageIdx: number): Observable<UserInfoModel[]> {
