@@ -6,19 +6,27 @@ import com.mainul35.bsuserinfo.controllers.dtos.request.UserInfoRequest;
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserConnectionInfoResponse;
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
 import com.mainul35.bsuserinfo.entity.UserEntity;
-import com.mainul35.bsuserinfo.services.UserConnectionService;
-import com.mainul35.bsuserinfo.services.UserInfoService;
+import com.mainul35.bsuserinfo.services.definition.UserConnectionService;
+import com.mainul35.bsuserinfo.services.definition.UserInfoService;
+import com.mainul35.bsuserinfo.services.impl.UserConnectionServiceImpl;
+import com.mainul35.bsuserinfo.services.impl.UserInfoServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @RestController
-public record UserInfoController(UserInfoService userInfoService, UserConnectionService userConnectionService) implements IUserInfoController {
+public class UserInfoController implements IUserInfoController {
 
+    private final UserInfoService userInfoService;
+    private final UserConnectionService userConnectionService;
+    UserInfoController(UserInfoService userInfoService1, UserConnectionService userConnectionService1) {
+        this.userInfoService = userInfoService1;
+
+        this.userConnectionService = userConnectionService1;
+    }
     @Override
     public ResponseEntity<List<UserInfoResponse>> getUsers(Integer pageIxd, Integer itemsPerPage) {
         var userEntityList = userInfoService.getUsers(pageIxd, itemsPerPage);

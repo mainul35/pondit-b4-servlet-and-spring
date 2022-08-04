@@ -1,1 +1,90 @@
-<p>user-register works!</p>
+<main class="my-form">
+  <div class="cotainer">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">Register</div>
+          <div class="card-body">
+            <form *ngIf='form' [formGroup]="form" name="my-form">
+              <div class="row">
+                <div class="form-group col-md-5">
+                  <div class="row">
+                    <label class="col-md-4 col-form-label text-md-right">First Name</label>
+                    <div class="col-md-8">
+                      <input type="text" formControlName="firstName"  class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-5">
+                  <div class="row">
+                    <label class="col-md-4 col-form-label text-md-right">Surname</label>
+                    <div class="col-md-8">
+                      <input type="text" formControlName="surname" class="form-control">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="form-group col-md-10">
+                  <div class="row">
+                    <label class="col-md-4 col-form-label text-md-right">Username</label>
+                    <div class="col-md-8">
+                      <input type="text" formControlName="username"  class="form-control">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-10">
+                  <div class="row">
+                    <label class="col-md-4 col-form-label text-md-right">Email</label>
+                    <div class="col-md-8">
+                      <input type="text" formControlName="email"  class="form-control">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-10">
+                  <div class="row">
+                    <label class="col-md-4 col-form-label text-md-right">Password</label>
+                    <div class="col-md-8">
+                      <input type="text" formControlName="password"  class="form-control">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+<!--
+              <div class="row">
+                <div class="form-group col-md-10">
+                  <div class="row">
+                    <label class="col-md-4 col-form-label text-md-right">Choose a profile photo</label>
+                    <div class="col-md-8">
+                      <input #imageInput
+                             type="file"
+                             accept="image/*"
+                             (change)="processFile(imageInput)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+-->
+              <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary" (click)="submitForm()">
+                  Register
+                </button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</main>

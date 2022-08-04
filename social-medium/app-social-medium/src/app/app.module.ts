@@ -11,7 +11,7 @@ import { RecommendationsComponent } from './components/recommendations/recommend
 import { UserRegisterComponent } from './components/user-register/user-register.component';
 import { UserSearchComponent } from './components/user-search/user-search.component';
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProfileTabsComponent } from './components/profile-tabs/profile-tabs.component';
 import {NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
@@ -42,7 +42,8 @@ import { BrowserUsersComponent } from './components/browser-users/browser-users.
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbNavModule
+    NgbNavModule,
+    ReactiveFormsModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

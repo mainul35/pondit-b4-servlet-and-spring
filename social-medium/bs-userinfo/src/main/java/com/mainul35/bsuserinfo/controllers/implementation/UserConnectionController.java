@@ -5,7 +5,7 @@ import com.mainul35.bsuserinfo.controllers.dtos.response.UserConnectionInfoRespo
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
 import com.mainul35.bsuserinfo.entity.UserConnection;
 import com.mainul35.bsuserinfo.entity.UserEntity;
-import com.mainul35.bsuserinfo.services.UserConnectionService;
+import com.mainul35.bsuserinfo.services.definition.UserConnectionService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public record UserConnectionController(UserConnectionService userConnectionService) implements IConnectionController {
+public class UserConnectionController implements IConnectionController {
 
+    private final UserConnectionService userConnectionService;
+    public UserConnectionController(UserConnectionService userConnectionService1) {
+        this.userConnectionService = userConnectionService1;
+    }
     @Override
     public ResponseEntity<?> requestConnection(String userId, String connectionId) {
         var userConnection = userConnectionService.addConnection(userId, connectionId);

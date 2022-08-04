@@ -85,7 +85,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         traceLines.append("Caused By: ").append(ex.fillInStackTrace()).append("\n");
         Arrays.stream(trace).filter(f -> f.getClassName().contains("com.mainul35"))
                 .forEach(traceElement -> traceLines.append("\tat ").append(traceElement).append("\n"));
-        logger.error(traceLines);
+        log.error(traceLines.toString());
         return new ResponseEntity(body, headers, status);
     }
 }

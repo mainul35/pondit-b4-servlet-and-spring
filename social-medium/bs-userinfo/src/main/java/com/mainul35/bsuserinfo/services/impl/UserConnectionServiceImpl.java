@@ -1,4 +1,4 @@
-package com.mainul35.bsuserinfo.services;
+package com.mainul35.bsuserinfo.services.impl;
 
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserConnectionInfoResponse;
 import com.mainul35.bsuserinfo.controllers.dtos.response.UserInfoResponse;
@@ -9,6 +9,7 @@ import com.mainul35.bsuserinfo.entity.UserEntity;
 import com.mainul35.bsuserinfo.exceptions.NoContentException;
 import com.mainul35.bsuserinfo.repositories.UserConnectionRepository;
 import com.mainul35.bsuserinfo.repositories.UserInfoRepository;
+import com.mainul35.bsuserinfo.services.definition.UserConnectionService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -21,16 +22,17 @@ import java.util.stream.Stream;
 
 @Service
 @Transactional
-public class UserConnectionService {
+public class UserConnectionServiceImpl implements UserConnectionService {
 
     private final UserInfoRepository userInfoRepository;
     private final UserConnectionRepository connectionRepository;
-    UserConnectionService(UserInfoRepository userInfoRepository,
-                          UserConnectionRepository connectionRepository) {
+    UserConnectionServiceImpl(UserInfoRepository userInfoRepository,
+                              UserConnectionRepository connectionRepository) {
         this.userInfoRepository = userInfoRepository;
         this.connectionRepository = connectionRepository;
     }
     @Transactional
+    @Override
     public UserConnection addConnection(String userId, String connectionId) {
         var userConnection = connectionRepository.findByUserConnectionId(getUserConnectionId(userId, connectionId))
                 .orElse(connectionRepository.findByUserConnectionId(getUserConnectionId(connectionId, userId))
@@ -48,6 +50,7 @@ public class UserConnectionService {
         return new UserConnectionId(user, connection);
     }
 
+    @Override
     public UserConnectionInfoResponse acceptConnection(String userId, String connectionId) {
 
         var userConnection = connectionRepository.findByUserConnectionId(getUserConnectionId(userId, connectionId))
@@ -61,6 +64,7 @@ public class UserConnectionService {
         return prepareUserConnectionResponse(connectionRepository.save(userConnection), userId) ;
     }
 
+    @Override
     public UserConnectionInfoResponse rejectConnection(String userId, String connectionId) {
         var userConnection = connectionRepository.findByUserConnectionId(getUserConnectionId(userId, connectionId))
                 .orElse(connectionRepository.findByUserConnectionId(getUserConnectionId(connectionId, userId)).orElse(null));
@@ -73,6 +77,7 @@ public class UserConnectionService {
         return prepareUserConnectionResponse(connectionRepository.save(userConnection), userId);
     }
 
+    @Override
     public UserConnectionInfoResponse blockConnection(String userId, String connectionId) {
         var userConnection = connectionRepository.findByUserConnectionId(getUserConnectionId(userId, connectionId))
                 .orElse(connectionRepository.findByUserConnectionId(getUserConnectionId(connectionId, userId)).orElse(null));
@@ -85,6 +90,7 @@ public class UserConnectionService {
         return prepareUserConnectionResponse(connectionRepository.save(userConnection), userId);
     }
 
+    @Override
     public UserConnectionInfoResponse unblockConnection(String userId, String connectionId) {
         var userConnection = connectionRepository.findByUserConnectionId(getUserConnectionId(userId, connectionId))
                 .orElse(connectionRepository.findByUserConnectionId(getUserConnectionId(connectionId, userId)).orElse(null));
@@ -97,6 +103,7 @@ public class UserConnectionService {
         return prepareUserConnectionResponse(connectionRepository.save(userConnection), userId);
     }
 
+    @Override
     public List<UserConnectionInfoResponse> getAllConnectionRequests(String userId, Integer pageIxd, Integer itemsPerPage) {
         var user = userInfoRepository.findById(userId)
                 .orElseThrow(() -> new NoContentException("No user found with this user Id"));
@@ -110,6 +117,7 @@ public class UserConnectionService {
                 .toList();
     }
 
+    @Override
     public List<UserConnectionInfoResponse> getAllBlockedConnections(String userId, Integer pageIxd, Integer itemsPerPage) {
         var user = userInfoRepository.findById(userId)
                 .orElseThrow(() -> new NoContentException("No user found with this user Id"));
@@ -123,6 +131,7 @@ public class UserConnectionService {
                 .toList();
     }
 
+    @Override
     public List<UserConnectionInfoResponse> getAllAcceptedConnections(String userId, Integer pageIxd, Integer itemsPerPage) {
         var user = userInfoRepository.findById(userId)
                 .orElseThrow(() -> new NoContentException("No user found with this user Id"));
@@ -154,6 +163,7 @@ public class UserConnectionService {
      * Will be used to return user suggestions
      * */
     @Transactional
+    @Override
     public List<UserConnectionInfoResponse> getNonConnectedUsers(String id, Integer pageIxd, Integer itemsPerPage) {
         var userOptional = userInfoRepository.findById(id);
         if(userOptional.isPresent()){
