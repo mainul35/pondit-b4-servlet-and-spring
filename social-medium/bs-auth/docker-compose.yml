@@ -25,34 +25,25 @@ services:
 #      - type: volume
 #        source: vol_userinfo
 #        target: "/home/mainul35/Documents/userinfo/static/resources"
-  userinfo_db:
+  bs_auth_db:
     image: 'postgres'
-    container_name: 'userinfo_container'
+    container_name: 'bs_auth_container'
     volumes:
       - type: volume
-        source: vol_userinfo
-        target: "/home/mainul35/Documents/userinfo_db_data"
+        source: vol_bs_auth
+        target: "/home/mainul35/Documents/bs_auth_db_data"
     ports:
-      - '5433:5432'
+      - '5435:5432'
     environment:
       - 'POSTGRES_PASSWORD=secret'
       - 'POSTGRES_USER=postgres'
-      - 'POSTGRES_DB=userinfo'
+      - 'POSTGRES_DB=bs_auth'
     networks:
       - social_medium
     extra_hosts:
       - 'social_medium_network:192.168.1.100'
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: social_community_user
-      RABBITMQ_DEFAULT_PASS: secret
-    ports:
-      - 5672:5672
-      - 15672:15672
 volumes:
-  vol_userinfo:
+  vol_bs_auth:
 networks:
   social_medium:
     name: social_medium_network

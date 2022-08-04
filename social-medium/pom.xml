@@ -8,7 +8,7 @@
         <version>2.7.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.socialmedium</groupId>
+    <groupId>com.mainul35</groupId>
     <artifactId>social-medium-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>social-medium-parent</name>
@@ -66,6 +66,9 @@
 
     <modules>
         <module>app-social-medium</module>
+        <module>bff-social-medium</module>
+        <module>bs-attachments</module>
+        <module>bs-auth</module>
         <module>bs-userinfo</module>
     </modules>
 </project>
