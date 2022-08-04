@@ -7,7 +7,6 @@
         <artifactId>social-medium-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.mainul35</groupId>
     <artifactId>bs-userinfo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>bs-userinfo</name>

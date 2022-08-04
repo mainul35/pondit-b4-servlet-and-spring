@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/users/{userId}/connections")
-@CrossOrigin("${cross.origin}")
 public interface IConnectionController {
 
     @PostMapping("/request/{connectionId}")
